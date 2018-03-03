@@ -21,6 +21,8 @@ client.write_points([{
     'measurement': 'speedtest',
     'tags': {
         'host': result['server']['host'],
+        'client_ip': result['client']['ip'],
+        'client_isp': result['client']['isp'],
     },
     'fields': {
         'upload': result['upload'],
