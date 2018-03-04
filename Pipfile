@@ -8,6 +8,9 @@ name = "pypi"
 [packages]
 
 speedtest-cli = "*"
+influxdb = "*"
+humanfriendly = "*"
+pendulum = "*"
 
 
 [dev-packages]
