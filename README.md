@@ -37,3 +37,8 @@ $ python render.py > output.html
 
 If you have InfluxDB installed somewhere else, you can specify its connection
 settings through various command-line flags on both scripts.
+
+## Thanks
+
+Big thanks to Josef Schneider and Eva Silberschneider for the inspiration with
+their [speedtest_cron](https://gitgud.io/J0s3f/speedtest_cron/) package.
