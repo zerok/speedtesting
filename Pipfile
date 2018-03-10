@@ -11,6 +11,7 @@ speedtest-cli = "*"
 influxdb = "*"
 humanfriendly = "*"
 pendulum = "*"
+"jinja2" = "*"
 
 
 [dev-packages]

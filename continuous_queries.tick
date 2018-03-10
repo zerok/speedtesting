@@ -1,0 +1,8 @@
+DROP CONTINUOUS QUERY "speedtest.cq_avg_ping" ON "speedtest"
+CREATE CONTINUOUS QUERY "cq_avg_ping" ON speedtest resample every 15m BEGIN select mean("ping") into "avg_ping" from "speedtest" group by time(1d) END
+
+DROP CONTINUOUS QUERY "cq_max_ping" ON "speedtest"
+CREATE CONTINUOUS QUERY "cq_max_ping" ON speedtest resample every 15m BEGIN select max("ping") into "max_ping" from "speedtest" group by time(1d) END
+
+DROP CONTINUOUS QUERY "cq_min_ping" ON "speedtest"
+CREATE CONTINUOUS QUERY "cq_min_ping" ON speedtest resample every 15m BEGIN select min("ping") into "min_ping" from "speedtest" group by time(1d) END

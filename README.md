@@ -38,6 +38,13 @@ $ python render.py > output.html
 If you have InfluxDB installed somewhere else, you can specify its connection
 settings through various command-line flags on both scripts.
 
+## Continuous queries
+
+If you also want to have aggregates showing up on the rendered page, you can
+create the a handful of continuous queries inside InfluxDB that will be checked
+by the rendering script. You can find the statements for creating the queries
+inside the `continuous_queries.tick` file.
+
 ## Thanks
 
 Big thanks to Josef Schneider and Eva Silberschneider for the inspiration with
