@@ -1,0 +1,9 @@
+[Unit]
+Description=InfluxDB server
+
+[Service]
+ExecStart=/opt/influxdb-1.6.3-1/usr/bin/influxd run -config /etc/influxdb/influxdb.conf
+User=influxdb
+
+[Install]
+WantedBy=multi-user.target

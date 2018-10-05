@@ -1,0 +1,5 @@
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/pipenv run python speedtest.py --influx-database speedtesting
+WorkingDirectory=/opt/speedtesting
+User=speedtesting

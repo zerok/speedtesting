@@ -1,0 +1,114 @@
+- hosts: raspberrypi-speedtest
+  become: yes
+  handlers:
+    - name: restart influxdb
+      systemd:
+        name: influxdb.service
+        daemon_reload: yes
+        state: restarted
+        enabled: yes
+    - name: restart timer
+      systemd:
+        name: speedtest.timer
+        daemon_reload: yes
+        enabled: yes
+        state: restarted
+    - name: restart chronograf
+      systemd:
+        name: chronograf.service
+        daemon_reload: yes
+        enabled: yes
+        state: restarted
+  tasks:
+    - name: Install system dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - python3
+        - python3-dev
+    - name: Create speedtest user
+      user:
+        name: speedtesting
+        shell: /bin/bash
+    - name: Install pipenv
+      pip:
+        executable: pip3
+        name: pipenv
+    - name: Copy source
+      synchronize:
+        src: ../../
+        dest: /opt/speedtesting
+        archive: yes
+    - name: Download InfluxDB
+      get_url:
+        url: https://dl.influxdata.com/influxdb/releases/influxdb-1.6.3_linux_armhf.tar.gz
+        dest: /opt/influxdb-1.6.3_linux_armhf.tar.gz
+        checksum: "sha256:2298c38898bf4d18e95d89181dfe906337b49b2e2eb6e37fc664377518f05c41"
+    - name: Extract InfluxDB
+      unarchive:
+        src: /opt/influxdb-1.6.3_linux_armhf.tar.gz
+        remote_src: yes
+        dest: /opt/
+    - name: Create influx user
+      user:
+        name: influxdb
+    - name: Create influx data dir
+      file:
+        path: /var/lib/influxdb
+        owner: influxdb
+        state: directory
+    - name: Create influxdb config directory
+      file:
+        path: /etc/influxdb
+        state: directory
+    - name: Create influxdb config file
+      template:
+        src: templates/influxdb.conf.j2
+        dest: /etc/influxdb/influxdb.conf
+      notify:
+        - restart influxdb
+    - name: Create influxdb service file
+      template:
+        src: templates/influxdb.service.j2
+        dest: /etc/systemd/system/influxdb.service
+      notify:
+        - restart influxdb
+    - name: Create update service
+      template:
+        src: templates/speedtest.service.j2
+        dest: /etc/systemd/system/speedtest.service
+      register: update_service
+    - systemd:
+        daemon_reload: yes
+      when: update_service.changed
+    - name: Create update timer
+      template:
+        src: templates/speedtest.timer.j2
+        dest: /etc/systemd/system/speedtest.timer
+      notify:
+        - restart timer
+    - name: Create chronograf user
+      user:
+        name: chronograf
+    - name: Create chronograf data folder
+      file:
+        path: /var/lib/chronograf
+        owner: chronograf
+        state: directory
+    - name: Download Chronograf
+      get_url:
+        url: https://dl.influxdata.com/chronograf/releases/chronograf-1.6.2_linux_armhf.tar.gz
+        dest: /opt/chronograf-1.6.2_linux_armhf.tar.gz
+        checksum: "sha256:e5ee95379fc9cd2233e86e7ee34624da4a007e0891b625fcacf30bb8b0f90706"
+    - name: Extract Chronograf
+      unarchive:
+        src: /opt/chronograf-1.6.2_linux_armhf.tar.gz
+        remote_src: yes
+        dest: /opt/
+    - name: Create chronograf service
+      template:
+        src: templates/chronograf.service.j2
+        dest: /etc/systemd/system/chronograf.service
+      notify:
+        - restart chronograf

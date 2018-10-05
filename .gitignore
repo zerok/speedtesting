@@ -1,1 +1,3 @@
 *.html
+*.retry
+/ansible/hosts

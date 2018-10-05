@@ -1,0 +1,10 @@
+[Unit]
+Description=Chronograf
+
+[Service]
+ExecStart=/opt/chronograf-1.6.2-1/usr/bin/chronograf
+User=chronograf
+WorkingDirectory=/var/lib/chronograf
+
+[Install]
+WantedBy=multi-user.target
