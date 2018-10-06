@@ -1,5 +1,5 @@
 - hosts: raspberrypi-speedtest
   roles:
-    # - influxdb
-    # - chronograf
+    - influxdb
+    - chronograf
     - speedtesting
