@@ -1,0 +1,25 @@
+---
+- name: Create chronograf user
+  user:
+    name: chronograf
+- name: Create chronograf data folder
+  file:
+    path: /var/lib/chronograf
+    owner: chronograf
+    state: directory
+- name: Download Chronograf
+  get_url:
+    url: https://dl.influxdata.com/chronograf/releases/chronograf-1.6.2_linux_armhf.tar.gz
+    dest: /opt/chronograf-1.6.2_linux_armhf.tar.gz
+    checksum: "sha256:e5ee95379fc9cd2233e86e7ee34624da4a007e0891b625fcacf30bb8b0f90706"
+- name: Extract Chronograf
+  unarchive:
+    src: /opt/chronograf-1.6.2_linux_armhf.tar.gz
+    remote_src: yes
+    dest: /opt/
+- name: Create chronograf service
+  template:
+    src: "{{ role_path }}/templates/chronograf.service.j2"
+    dest: /etc/systemd/system/chronograf.service
+  notify:
+    - restart chronograf

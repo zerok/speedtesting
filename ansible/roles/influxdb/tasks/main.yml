@@ -1,0 +1,35 @@
+---
+- name: Download InfluxDB
+  get_url:
+    url: https://dl.influxdata.com/influxdb/releases/influxdb-1.6.3_linux_armhf.tar.gz
+    dest: /opt/influxdb-1.6.3_linux_armhf.tar.gz
+    checksum: "sha256:2298c38898bf4d18e95d89181dfe906337b49b2e2eb6e37fc664377518f05c41"
+- name: Extract InfluxDB
+  unarchive:
+    src: /opt/influxdb-1.6.3_linux_armhf.tar.gz
+    remote_src: yes
+    dest: /opt/
+- name: Create influx user
+  user:
+    name: influxdb
+- name: Create influx data dir
+  file:
+    path: /var/lib/influxdb
+    owner: influxdb
+    state: directory
+- name: Create influxdb config directory
+  file:
+    path: /etc/influxdb
+    state: directory
+- name: Create influxdb config file
+  template:
+    src: "{{ role_path }}/templates/influxdb.conf.j2"
+    dest: /etc/influxdb/influxdb.conf
+  notify:
+    - restart influxdb
+- name: Create influxdb service file
+  template:
+    src: "{{ role_path }}/templates/influxdb.service.j2"
+    dest: /etc/systemd/system/influxdb.service
+  notify:
+    - restart influxdb

@@ -1,0 +1,7 @@
+---
+- name: restart chronograf
+  systemd:
+    name: chronograf.service
+    daemon_reload: yes
+    enabled: yes
+    state: restarted

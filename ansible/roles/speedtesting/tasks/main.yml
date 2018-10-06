@@ -1,0 +1,45 @@
+---
+- name: Install system dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - python3
+    - python3-dev
+- name: Create speedtest user
+  user:
+    name: speedtesting
+    shell: /bin/bash
+- name: Install pipenv
+  pip:
+    executable: pip3
+    name: pipenv
+- name: Copy source
+  synchronize:
+    src: "{{ role_path }}/../../../"
+    dest: /opt/speedtesting
+    archive: yes
+- name: Ensure that the speedtesting 
+  file:
+    path: /opt/speedtesting
+    owner: speedtesting
+    recurse: yes
+- name: Install python dependencies
+  become_user: speedtesting
+  shell: pipenv sync
+  args:
+    chdir: /opt/speedtesting
+- name: Create update service
+  template:
+    src: "{{ role_path }}/templates/speedtest.service.j2"
+    dest: /etc/systemd/system/speedtest.service
+  register: update_service
+- systemd:
+    daemon_reload: yes
+  when: update_service.changed
+- name: Create update timer
+  template:
+    src: "{{ role_path }}/templates/speedtest.timer.j2"
+    dest: /etc/systemd/system/speedtest.timer
+  notify:
+    - restart timer

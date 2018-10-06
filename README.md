@@ -45,6 +45,15 @@ create the a handful of continuous queries inside InfluxDB that will be checked
 by the rendering script. You can find the statements for creating the queries
 inside the `continuous_queries.tick` file.
 
+
+## RaspberryPI
+
+If you want to use RaspberryPI and have Ansible installed, you can run `ansible
+-i hosts install.yml` inside the `ansible` folder.
+
+This expects a host or hostgroup by the name of `raspberrypi-speedtest` for
+which you have SSH access.
+
 ## Thanks
 
 Big thanks to Josef Schneider and Eva Silberschneider for the inspiration with

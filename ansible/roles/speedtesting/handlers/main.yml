@@ -1,0 +1,7 @@
+---
+- name: restart timer
+  systemd:
+    name: speedtest.timer
+    daemon_reload: yes
+    enabled: yes
+    state: restarted
