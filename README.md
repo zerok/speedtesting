@@ -45,6 +45,11 @@ Now, you can inspect the details of the measurement either using the `influx`
 command-line application or Chronograf.
 
 
+## Chronograf
+
+The `dashboards` folder includes dashboard configurations for Chronograf.
+
+
 ## RaspberryPI
 
 If you want to use RaspberryPI and have [Ansible](https://www.ansible.com/)
