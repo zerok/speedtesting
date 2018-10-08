@@ -1,0 +1,7 @@
+Speedtesting has been installed with all its dependencies. A job will be run every 5 minutes to create a new measurement and store it inside InfluxDB.
+
+Now enter the following address into your browser to access Chronograf:
+
+  <http://{{ ansible_default_ipv4.address }}:8888/sources/0/dashboards>
+
+If this is the first time you visit this page, then you will need to create a new dashboard. You can also use the dashboard I'm using by clicking the "Import Dashboard" button and uploading <https://github.com/zerok/speedtesting/blob/master/dashboards/Speedtest.json>.

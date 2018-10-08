@@ -43,3 +43,6 @@
     dest: /etc/systemd/system/speedtest.timer
   notify:
     - restart timer
+- template:
+    src: "{{ role_path }}/templates/success.txt.j2"
+    dest: /var/tmp/setup-success.txt
