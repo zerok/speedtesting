@@ -17,7 +17,22 @@ used for generating visualisations. Fortunately, I now have a more recent
 RaspberryPI at my disposal and can therefore use Chronograf directly 🙂
 
 
-## Getting started
+## Installing on a RaspberryPI (auto-setup)
+
+If you want to install speedtesting on a RaspberryPI with Raspbian, we have an
+`install.sh` script which automates all the necessary steps for you.
+
+Just open a terminal on your RaspberryPI and enter the following command:
+
+```
+curl https://raw.githubusercontent.com/zerok/speedtesting/master/install.sh | sudo /bin/bash
+```
+
+Under the hood, this uses the [Ansible](https://www.ansible.com/) roles defined
+inside the `ansible` folder.
+
+
+## Getting started (without auto-setup)
 
 This collection has three dependencies:
 
@@ -48,21 +63,6 @@ command-line application or Chronograf.
 ## Chronograf
 
 The `dashboards` folder includes dashboard configurations for Chronograf.
-
-
-## RaspberryPI
-
-If you want to install speedtesting on a RaspberryPI with Raspbian, we have an
-`install.sh` script which automates all the necessary steps for you.
-
-Just open a terminal on your RaspberryPI and enter the following command:
-
-```
-curl https://raw.githubusercontent.com/zerok/speedtesting/master/install.sh | sudo /bin/bash
-```
-
-Under the hood, this uses the [Ansible](https://www.ansible.com/) roles defined
-inside the `ansible` folder.
 
 
 ## Thanks
