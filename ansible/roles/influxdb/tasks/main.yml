@@ -31,5 +31,16 @@
   template:
     src: "{{ role_path }}/templates/influxdb.service.j2"
     dest: /etc/systemd/system/influxdb.service
+  register: influxdb_service
   notify:
     - restart influxdb
+- name: Reload systemd state
+  when: influxdb_service.changed
+  systemd:
+    daemon_reload: yes
+- name: Ensure that influxdb is running
+  service:
+    name: influxdb
+    state: started
+    enabled: yes
+  
